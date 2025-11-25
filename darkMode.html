@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Modo Escuro</title>
+  <style>
+    /* Estilo padrão (modo claro) */
+    body {
+      background-color: #f5f5f5;
+      color: #222;
+      font-family: Arial, sans-serif;
+      transition: background-color 0.3s, color 0.3s;
+      padding: 2rem;
+    }
+
+    /* Estilo do botão */
+    .toggle-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #007bff;
+      color: rgb(252, 249, 249);
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    /* Estilo modo escuro */
+    .dark-mode {
+      background-color: #121212;
+      color: #f5f2f2;
+    }
+
+    .dark-mode .toggle-btn {
+      background-color: #444;
+    }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  <button id="toggleBtn" class="toggle-btn">🌙 Alternar Modo</button>
+
+  <h1>Bem-vindo ao Dashboard</h1>
+  <p>Este é um exemplo simples de modo escuro com HTML, CSS e JavaScript.</p>
+  <p><a href="../index.html">Voltar ao site</a></p>
+
+  <script>
+    // Aplica estado salvo ao carregar
+    (function() {
+      try {
+        const saved = localStorage.getItem('darkMode');
+        if (saved === 'true') document.body.classList.add('dark-mode');
+      } catch (e) {
+        console.warn('localStorage inacessível', e);
+      }
+    })();
+
+    // Alterna e grava no localStorage
+    function toggleDarkMode() {
+      try {
+        const isDark = document.body.classList.toggle('dark-mode');
+        localStorage.setItem('darkMode', isDark ? 'true' : 'false');
+        // atualiza label do botão opcionalmente
+        document.getElementById('toggleBtn').textContent = isDark ? '☀️ Modo Claro' : '🌙 Alternar Modo';
+      } catch (e) {
+        console.warn('Erro ao salvar modo escuro', e);
+      }
+    }
+
+    document.getElementById('toggleBtn').addEventListener('click', toggleDarkMode);
+  </script>
+</body>
+</html>

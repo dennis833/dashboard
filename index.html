@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Adicionado: estilos para modo escuro e persistência via localStorage -->
+    <style>
+      /* regras simples para sobrescrever elementos claros quando .dark-mode estiver presente */
+      body.dark-mode { background-color: #0b1220 !important; color: #5f6872 !important; }
+      body.dark-mode .bg-white { background-color: #0f1724 !important; }
+      body.dark-mode .bg-gray-100 { background-color: #0f1724 !important; }
+      body.dark-mode .text-gray-800 { color: #e6eef8 !important; }
+      body.dark-mode .text-gray-600 { color: #94a3b8 !important; }
+      body.dark-mode .border { border-color: rgba(255,255,255,0.06) !important; }
+      body.dark-mode .shadow { box-shadow: 0 1px 3px rgba(2,6,23,0.6) !important; }
+      body.dark-mode .bg-blue-700 { background-color: #0b1220 !important; }
+      body.dark-mode a:hover { background-color: rgba(255,255,255,0.03) !important; }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+
+<div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-blue-700 text-white p-5 space-y-6">
+        <h2 class="text-2xl font-bold">Menu</h2>
+        <nav class="space-y-4">
+            <a href="#" class="block px-3 py-2 rounded hover:bg-blue-600">Início</a>
+            <a href="#" class="block px-3 py-2 rounded hover:bg-blue-600">Sobre</a>
+            <a href="#" class="block px-3 py-2 rounded hover:bg-blue-600">Serviços</a>
+            <a href="#" class="block px-3 py-2 rounded hover:bg-blue-600">Contato</a>
+            <a href="dark/darkmode.html" class="block px-3 py-2 rounded hover:bg-blue-600">Configurações</a>
+        </nav>
+    </aside>
+
+    <!-- conteudo principal -->
+     <main class="flex-1 p-8">
+
+        <!--header -->
+        <header class="flex justify-between items-center mb-8">
+            <div>
+              <h1 class="text-3xl font-semibold text-gray-800">Dashboard</h1>
+              <p class="text-gray-600 mt-2">Explore nossos serviços e saiba mais sobre nós.</p>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <input
+                    type="text"
+                    placeholder="Pesquisar..."
+                    class="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <img
+                    src="https://i.pravatar.cc/40"
+                    alt="Avatar"
+                    class="rounded-full w-10 h-10 border"
+                />
+
+                <!-- Botão para alternar modo escuro -->
+                <button
+                  id="toggleBtn"
+                  class="ml-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-500 focus:outline-none"
+                  aria-pressed="false"
+                >
+                  🌙 Modo Escuro
+                </button>
+            </div>
+            </header>
+            
+            <!-- cards de metricas -->
+            <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-gray-500">Usuários Ativos</h3>
+                    <p class="text-3xl font-bold text-blue-600">1,234</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-gray-500">Novos Hoje</h3>
+                    <p class="text-3xl font-bold text-blue-600">32</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-gray-500">Taxa de conversão</h3>
+                    <p class="text-3xl font-bold text-blue-600">18%</p>
+                </div>
+                </section>  
+
+                <!-- Tabela de leads -->
+      <section class="bg-white rounded-lg shadow p-6">
+        <h2 class="text-xl font-semibold mb-4">Leads Recentes</h2>
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-gray-100">
+              <th class="p-3 border-b">Nome</th>
+              <th class="p-3 border-b">Email</th>
+              <th class="p-3 border-b">Status</th>
+              <th class="p-3 border-b">Data</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-gray-50">
+              <td class="p-3 border-b">João Silva</td>
+              <td class="p-3 border-b">joao@email.com</td>
+              <td class="p-3 border-b text-green-600 font-medium">Novo</td>
+              <td class="p-3 border-b">03/11/2025</td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+              <td class="p-3 border-b">Maria Souza</td>
+              <td class="p-3 border-b">maria@email.com</td>
+              <td class="p-3 border-b text-yellow-600 font-medium">Em Contato</td>
+              <td class="p-3 border-b">02/11/2025</td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+              <td class="p-3 border-b">Carlos Pereira</td>
+              <td class="p-3 border-b">carlos@email.com</td>
+              <td class="p-3 border-b text-blue-600 font-medium">Convertido</td>
+              <td class="p-3 border-b">01/11/2025</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+    </main>
+  </div>
+  <script>
+    (function() {
+      try {
+        const dark = localStorage.getItem('darkMode');
+        const btn = document.getElementById('toggleBtn');
+        if (dark === 'true') {
+          document.body.classList.add('dark-mode');
+          if (btn) { btn.textContent = '☀️ Modo Claro'; btn.setAttribute('aria-pressed','true'); }
+        } else {
+          document.body.classList.remove('dark-mode');
+          if (btn) { btn.textContent = '🌙 Modo Escuro'; btn.setAttribute('aria-pressed','false'); }
+        }
+
+        if (btn) {
+          btn.addEventListener('click', function () {
+            const isDark = document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', isDark ? 'true' : 'false');
+            btn.textContent = isDark ? '☀️ Modo Claro' : '🌙 Modo Escuro';
+            btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+          });
+        }
+      } catch (e) {
+        console.warn('Não foi possível acessar localStorage para modo escuro.', e);
+      }
+    })();
+  </script>
+</body>
+</html>
