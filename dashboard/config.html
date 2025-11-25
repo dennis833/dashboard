@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Configurações — Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* mesma lógica de modo escuro usada no index/sobre/servicos */
+    body.dark-mode { background-color: #0b1220 !important; color: #5f6872 !important; }
+    body.dark-mode .bg-white { background-color: #0f1724 !important; }
+    body.dark-mode .bg-gray-100 { background-color: #0f1724 !important; }
+    body.dark-mode .text-gray-800 { color: #e6eef8 !important; }
+    body.dark-mode .text-gray-600 { color: #94a3b8 !important; }
+    body.dark-mode .border { border-color: rgba(255,255,255,0.06) !important; }
+    body.dark-mode .shadow { box-shadow: 0 1px 3px rgba(2,6,23,0.6) !important; }
+    body.dark-mode .bg-blue-700 { background-color: #0b1220 !important; }
+    body.dark-mode a:hover { background-color: rgba(255,255,255,0.03) !important; }
+
+    /* pequenas customizações locais */
+    .toggle-row { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans">
+
+<div class="flex min-h-screen">
+  <!-- Sidebar (mesmo estilo do index) -->
+  <aside class="w-64 bg-blue-700 text-white p-5 space-y-6">
+    <h2 class="text-2xl font-bold">Menu</h2>
+    <nav class="space-y-4">
+      <a href="index.html" class="block px-3 py-2 rounded hover:bg-blue-600">Início</a>
+      <a href="sobre.html" class="block px-3 py-2 rounded hover:bg-blue-600">Sobre</a>
+      <a href="servicos.html" class="block px-3 py-2 rounded hover:bg-blue-600">Serviços</a>
+      <a href="contato.html" class="block px-3 py-2 rounded hover:bg-blue-600">Contato</a>
+      <a href="config.html" class="block px-3 py-2 rounded bg-blue-600">Configurações</a>
+    </nav>
+  </aside>
+
+  <!-- Conteúdo principal -->
+  <main class="flex-1 p-8">
+    <!-- Header -->
+    <header class="flex justify-between items-center mb-8">
+      <div>
+        <h1 class="text-3xl font-semibold text-gray-800">Configurações</h1>
+        <p class="text-gray-600 mt-2">Ajuste preferências do painel e da sua conta.</p>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <input
+          type="text"
+          placeholder="Pesquisar..."
+          class="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <img src="https://i.pravatar.cc/40" alt="Avatar" class="rounded-full w-10 h-10 border" />
+        <button
+          id="toggleBtn"
+          class="ml-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-500 focus:outline-none"
+          aria-pressed="false"
+        >
+          🌙 Modo Escuro
+        </button>
+      </div>
+    </header>
+
+    <!-- Conteúdo de configurações -->
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+      <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-4">Preferências do Painel</h2>
+
+        <form id="settingsForm" class="space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <label class="block">
+              <span class="text-gray-700 font-medium">Idioma</span>
+              <select id="language" class="mt-1 block w-full border rounded-lg px-3 py-2">
+                <option value="pt">Português (PT-BR)</option>
+                <option value="en">English</option>
+              </select>
+            </label>
+
+            <label class="block">
+              <span class="text-gray-700 font-medium">Fuso horário</span>
+              <select id="timezone" class="mt-1 block w-full border rounded-lg px-3 py-2">
+                <option>America/Sao_Paulo</option>
+                <option>UTC</option>
+                <option>Europe/Lisbon</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="border-t pt-4">
+            <div class="toggle-row">
+              <div>
+                <div class="text-gray-700 font-medium">Notificações por e-mail</div>
+                <div class="text-sm text-gray-600">Receba atualizações e alertas por e-mail.</div>
+              </div>
+              <label class="inline-flex items-center">
+                <input id="emailNotif" type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" />
+              </label>
+            </div>
+
+            <div class="mt-4 toggle-row">
+              <div>
+                <div class="text-gray-700 font-medium">Relatórios automáticos</div>
+                <div class="text-sm text-gray-600">Enviar resumo semanal por e-mail.</div>
+              </div>
+              <label class="inline-flex items-center">
+                <input id="weeklyReport" type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" />
+              </label>
+            </div>
+          </div>
+
+          <div class="border-t pt-4">
+            <h3 class="text-gray-800 font-medium mb-2">Segurança</h3>
+            <label class="block mb-3">
+              <span class="text-gray-700">Alterar senha</span>
+              <input id="password" type="password" placeholder="Nova senha" class="mt-1 block w-full border rounded-lg px-3 py-2" />
+            </label>
+
+            <label class="block">
+              <span class="text-gray-700">Confirmar senha</span>
+              <input id="confirmPassword" type="password" placeholder="Confirmar senha" class="mt-1 block w-full border rounded-lg px-3 py-2" />
+            </label>
+          </div>
+
+          <div class="flex justify-between items-center">
+            <button type="reset" class="bg-red-500 text-white px-4 py-2 rounded hover:opacity-90">Restaurar</button>
+            <div class="flex gap-3">
+              <button id="saveBtn" type="button" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-500">Salvar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <aside class="bg-white p-6 rounded-lg shadow">
+        <h3 class="text-lg font-semibold mb-3">Informações da Conta</h3>
+        <p class="text-gray-600 mb-4">Usuário: <strong class="text-gray-800">admin@example.com</strong></p>
+
+        <div class="mt-4">
+          <h4 class="text-sm font-medium text-gray-800">Sessões ativas</h4>
+          <p class="text-gray-600 text-sm">1 sessão ativa neste dispositivo</p>
+        </div>
+
+        <div class="mt-6">
+          <h4 class="text-sm font-medium text-gray-800">Suporte</h4>
+          <p class="text-gray-600 text-sm">support@exemplo.com</p>
+        </div>
+      </aside>
+    </section>
+
+    <footer class="mt-6 text-sm text-gray-600">© 2025 — Dashboard</footer>
+  </main>
+</div>
+
+<script>
+  (function() {
+    try {
+      const dark = localStorage.getItem('darkMode');
+      const btn = document.getElementById('toggleBtn');
+
+      if (dark === 'true') {
+        document.body.classList.add('dark-mode');
+        if (btn) { btn.textContent = '☀️ Modo Claro'; btn.setAttribute('aria-pressed','true'); }
+      } else {
+        document.body.classList.remove('dark-mode');
+        if (btn) { btn.textContent = '🌙 Modo Escuro'; btn.setAttribute('aria-pressed','false'); }
+      }
+
+      if (btn) {
+        btn.addEventListener('click', function () {
+          const isDark = document.body.classList.toggle('dark-mode');
+          localStorage.setItem('darkMode', isDark ? 'true' : 'false');
+          btn.textContent = isDark ? '☀️ Modo Claro' : '🌙 Modo Escuro';
+          btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+        });
+      }
+
+      // salvar configurações fictícias (apenas exemplo)
+      document.getElementById('saveBtn')?.addEventListener('click', function () {
+        const settings = {
+          language: document.getElementById('language')?.value,
+          timezone: document.getElementById('timezone')?.value,
+          emailNotif: document.getElementById('emailNotif')?.checked,
+          weeklyReport: document.getElementById('weeklyReport')?.checked
+        };
+        localStorage.setItem('dashboardSettings', JSON.stringify(settings));
+        alert('Configurações salvas.');
+      });
+
+      // carregar settings se houver
+      const savedSettings = localStorage.getItem('dashboardSettings');
+      if (savedSettings) {
+        try {
+          const s = JSON.parse(savedSettings);
+          if (s.language) document.getElementById('language').value = s.language;
+          if (s.timezone) document.getElementById('timezone').value = s.timezone;
+          if (typeof s.emailNotif === 'boolean') document.getElementById('emailNotif').checked = s.emailNotif;
+          if (typeof s.weeklyReport === 'boolean') document.getElementById('weeklyReport').checked = s.weeklyReport;
+        } catch (e) { /* ignore parse error */ }
+      }
+
+    } catch (e) {
+      console.warn('Não foi possível acessar localStorage para modo escuro/configurações.', e);
+    }
+  })();
+</script>
+</body>
+</html>
